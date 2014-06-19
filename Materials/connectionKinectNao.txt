@@ -1,0 +1,5 @@
+This is possible with the ALMemory:
+https://community.aldebaran-robotics.com/doc/1-14/naoqi/core/almemory.html
+
+Een voorbeeld in Python:
+https://community.aldebaran-robotics.com/doc/1-14/dev/python/reacting_to_events.html#python-reacting-to-events

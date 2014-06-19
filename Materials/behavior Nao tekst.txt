@@ -1,0 +1,24 @@
+Wat Nao moet doen: 
+- Eerst groeten en haar naam uitspreken
+- dan vertellen wat we vandaag gaan doen
+- dan vertellen dat je de muziekrobot kan aansturen
+- dan vertellen hoe je dat kan doen
+- laten zien en dat de muziek robot meedoet (seintje naar muziekrobot dat tie zn behavior moet aanpassen
+- 
+
+
+Gedurende dat de mens begint met muziek spelen
+- behavior dat hij luistert 
+Uit Wouter's project 
+(wanneer het geluid steeds hetzelfde is:
+	- Stretch
+wanneer de muziekrobot begint
+	- tap foot
+wanneer er een verandering in de muziek is:
+-random behavior
+	- soms niks
+	- soms goedzo zeggen
+	- soms bravo zeggen
+	- soms goed bezig zeggen
+ 
+
