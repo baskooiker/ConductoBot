@@ -2,10 +2,10 @@
 #X declare -lib mrpeach;
 #X obj 4 -232 import mrpeach;
 #X obj 28 -18 metro;
-#X obj 10 -53 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+#X obj 10 -53 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
 1;
 #X obj 16 110 hradio 30 1 0 16 empty empty empty 0 -8 0 10 -262144
--1 -1 4;
+-1 -1 2;
 #X floatatom 76 85 5 0 0 0 - - -;
 #X obj 16 53 counter 1 16;
 #X obj 16 83 - 1;
@@ -92,7 +92,7 @@ hit on that beat;
 #X obj 159 440 *~ 0.7;
 #X obj 474 156 init 16;
 #X obj 832 27 init 16;
-#N canvas 0 714 1362 696 tempo 1;
+#N canvas -8 -8 1366 685 tempo 0;
 #X obj 121 54 unpackOSC;
 #X obj 121 26 udpreceive 7000;
 #X obj 243 317 yin 3;
@@ -127,12 +127,12 @@ hit on that beat;
 #X obj 257 465 moses 50;
 #X msg 257 290 maxdelay 200;
 #X obj 65 529 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9800 1;
+-1 -1 0 1;
 #X obj 63 496 unpack f f f;
 #X obj 95 529 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 3608 1;
+-1 -1 0 1;
 #X obj 125 529 vsl 15 128 -5 5 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9825 1;
+-1 -1 0 1;
 #X obj 74 167 prepend set;
 #X msg 75 191 /1 0.543267 -0.431765 2.73586;
 #N canvas 377 244 597 401 closestPerson 0;
@@ -222,7 +222,7 @@ hit on that beat;
 #X connect 3 0 1 0;
 #X restore 223 278 pd giveZ;
 #X obj 185 350 prepend set;
-#X msg 185 376 -100 -2.73586 -100 -100 -100 -100 -100 -100;
+#X msg 185 376 -100 -100 -100 -100 -100 -100 -100 -100;
 #X obj 47 410 outlet;
 #X floatatom 9 382 5 0 0 0 - - -;
 #X floatatom -15 306 5 0 0 0 - - -;
@@ -334,17 +334,17 @@ hit on that beat;
 #X connect 17 2 12 0;
 #X restore 6 443 pd size;
 #X obj 15 529 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 490 1;
+-1 -1 0 1;
 #X obj 549 673 outlet;
 #X obj 506 354 switch 8;
 #X obj 561 223 routeOSC /0 /1 /2 /3 /4 /5 /6 /7;
 #X obj 672 442 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 10436 1;
+-1 -1 0 1;
 #X obj 670 409 unpack f f f;
 #X obj 702 442 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 6005 1;
+-1 -1 0 1;
 #X obj 732 442 vsl 15 128 -5 5 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9167 1;
+-1 -1 0 1;
 #X obj 131 121 routeOSC /hand_right /hand_left;
 #X floatatom 688 605 5 0 0 0 - - -;
 #X obj 803 623 + 0.5;
@@ -449,6 +449,12 @@ hit on that beat;
 #X obj 147 215 r \$0leftY;
 #X msg 145 238 5 \$1;
 #X obj 252 -152 s \$0leftY;
+#X floatatom 100 -80 5 0 0 0 - - -;
+#X obj 1048 76 udpsend 7001;
+#X msg 1002 35 connect 127.0.0.1 7001;
+#X msg 1013 -9 send /nxt 3;
+#X obj 968 -54 packOSC;
+#X msg 969 -95 /nxt 1;
 #X connect 1 0 5 0;
 #X connect 2 0 1 0;
 #X connect 5 0 4 0;
@@ -514,3 +520,8 @@ hit on that beat;
 #X connect 51 0 11 1;
 #X connect 52 0 53 0;
 #X connect 53 0 9 1;
+#X connect 55 0 1 1;
+#X connect 57 0 56 0;
+#X connect 58 0 56 0;
+#X connect 59 0 56 0;
+#X connect 60 0 59 0;
