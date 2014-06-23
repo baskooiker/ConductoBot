@@ -1,0 +1,64 @@
+#N canvas 309 65 952 612 10;
+#X obj 143 61 pitch_detection;
+#X floatatom 216 244 5 0 0 0 - - -;
+#X obj 303 242 tabset \$0tab;
+#X obj 315 -8 gate 3;
+#X obj 454 -33 hradio 15 1 0 3 empty empty empty 0 -8 0 10 -262144
+-1 -1 0;
+#X obj 454 -9 + 1;
+#X obj 315 -70 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+1;
+#X obj 314 -39 metro 50;
+#X text 187 286 argument 1: maximum delay value to compute. default
+50;
+#X text 187 296 argument 2: windowsize. defaut 50;
+#X text 187 336 output 1: delay with maximum resonance;
+#X text 187 346 output 2: resonance values as list;
+#X text 187 316 input 1: new value of stream;
+#X obj 454 -58 init 1;
+#N canvas 0 0 450 300 (subpatch) 0;
+#X array \$0tab 50 float 1;
+#A 0 0 0.19562 0.664014 0.740831 0.768189 0.780354 0.786715 0.790434
+0.79279 0.841102 0.883942 0.415223 1.12003e-008 0.469022 0.908696 0.89145
+0.878184 0.86772 0.859296 0.852399 0.846672 0.891379 0.933579 0.43806
+1.15412e-008 0.46471 0.8902 0.882415 0.87564 0.869701 0.864461 0.859811
+0.855664 0.90206 0.946585 0.445169 1.16509e-008 0.462872 0.882855 0.877951
+0.873488 0.869413 0.865681 0.862253 0.859097 0.906545 0.952503 0.448624
+1.17049e-008 0.461877;
+#X coords 0 1 49 0 200 140 1 0 0;
+#X restore 539 78 graph;
+#X msg 172 128 dip_threshold 0.2;
+#X msg 344 150 average_threshold 0.5;
+#X obj 216 212 multi_pitch 3;
+#X floatatom 256 245 5 0 0 0 - - -;
+#X msg 341 112 0.3 0.2 0.6;
+#X msg 218 156 2;
+#X msg 42 142 bufferlength 40;
+#X msg 49 108 bufferlength 50;
+#X msg 65 189 maxdelay 50;
+#X msg 53 218 maxdelay 25;
+#X msg 18 46 0.9 0.9 0.9 \, 0.1 0.1 0.1 \, 0.1 0.1 0.1 \, 0.1 0.1 0.1
+\, 0.1 0.1 0.1 \, 0.1 0.1 0.1 \, 0.1 0.1 0.1 \, 0.1 0.1 0.1 \, 0.1
+0.1 0.1 \, 0.1 0.1 0.1 \, 0.1 0.1 0.1 \, 0.9 0.9 0.9;
+#X msg 334 178 average_threshold 0.3;
+#X text 390 58 length 12;
+#X connect 3 0 25 0;
+#X connect 3 1 19 0;
+#X connect 4 0 5 0;
+#X connect 5 0 3 0;
+#X connect 6 0 7 0;
+#X connect 7 0 3 1;
+#X connect 13 0 4 0;
+#X connect 15 0 17 0;
+#X connect 16 0 17 0;
+#X connect 17 0 1 0;
+#X connect 17 1 2 0;
+#X connect 17 2 18 0;
+#X connect 19 0 17 0;
+#X connect 20 0 17 0;
+#X connect 21 0 17 0;
+#X connect 22 0 17 0;
+#X connect 23 0 17 0;
+#X connect 24 0 17 0;
+#X connect 25 0 17 0;
+#X connect 26 0 17 0;
