@@ -10,24 +10,28 @@ public class Main
    System.loadLibrary("JNaoQi");
 
  }
- static String NAOQI_IP = "naomi.local";
+ static String NAOQI_IP = "naomi.local"; //127.1.1.1
  static int NAOQI_PORT = 9559;
  static private ALBehaviorManagerProxy localProxyBehavior;
  static private NaoProxyThread<ALBehaviorManagerProxy> proxyBehavior;
 
  
- public static void main(String[] args)
+ @SuppressWarnings("deprecation")
+public static void main(String[] args)
  {
-		localProxyBehavior = new ALBehaviorManagerProxy (NAOQI_IP, NAOQI_PORT);
+	 
+	 localProxyBehavior = new ALBehaviorManagerProxy (NAOQI_IP, NAOQI_PORT);
 		proxyBehavior = new NaoProxyThread<ALBehaviorManagerProxy>(
 			localProxyBehavior	
 		);
-	 
 	 proxyBehavior.start();
 	// localProxyBehavior = new ALBehaviorManagerProxy(NAOQI_IP, NAOQI_PORT);
 	// localProxyBehavior.runBehavior("tell-time");
-	proxyBehavior.queueMethod("runBehavior", "dances/gangnam-style"); 
+	proxyBehavior.queueMethod("runBehavior", "tell-time"); 
+	// conductobot/ \ explanation_tempo_big
 	System.out.print("Hello World");
+	
+	
 	 
 	 /*
   // TTS proxy, myRobotIP.local
