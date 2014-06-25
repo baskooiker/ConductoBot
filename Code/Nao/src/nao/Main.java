@@ -24,9 +24,34 @@ public class Main
  public static void main(String[] args) throws Exception {
 		System.out.println("Starting Nao");
 		NaoController nc = new NaoController(NAOQI_IP, NAOQI_PORT);
+		NaoOSCListener ls = new NaoOSCListener();
 		
 		
 		
+		NaoController.runBehaviors();
+		//NaoController.test();
+		
+		System.out.println("Nao is running, type quit to stop.");
+		
+		BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
+		
+		while(!(r.readLine()).equals("quit"));
+		
+		System.out.println("Receiving quit command, stopping..");
+		
+		//Quit the controller
+		NaoController.stop();
+		System.out.println("Nao main thread stopped."); 
+		
+		//start listening
+		//typ quit to stop listening
+		ls.startListening();
+				
+
+		
+		
+		
+	/*	
 		OSCListener ls = new OSCListener(){
 
 			@Override
@@ -43,7 +68,7 @@ public class Main
 			public boolean matches(String messageAddress) {
 				// TODO Auto-generated method stub
 				System.out.println(messageAddress);
-				return messageAddress.equals("/kinect/tempo");
+				return messageAddress.equals("/kinect/leftmoving");
 			}
 		};
 		in.addListener(as,ls);
@@ -52,7 +77,8 @@ public class Main
 			 
 			 
 		 }
-	 
+		 
+	 */
 	 /*
 	 	com.illposed.osc.OSCPortOut sender = new com.illposed.osc.OSCPortOut(InetAddress.getByAddress(new byte[]{10, 0, 1, 6}), 1234);
 		OSCMessage msg = new OSCMessage("/nao/whateve");
@@ -61,24 +87,10 @@ public class Main
 		 } catch (Exception e) {
 			 System.out.println("Couldn't send");
 		 */
-	/* 
-		NaoController.runBehaviors();
-		//NaoController.test();
+	 
 		
-		System.out.println("Everything running, type quit to stop.");
-		
-		BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
-		
-		while(!(r.readLine()).equals("quit"));
-		
-		System.out.println("Receiving quit command, stopping..");
-		
-		//Quit the controller
-		NaoController.stop();
-		
-		
-		System.out.println("Nao main thread stopped."); 
- */
+
+ 
  
  /*
  

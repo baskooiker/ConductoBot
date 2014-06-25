@@ -20,20 +20,21 @@ public class NaoController {
 		proxyBehavior = new NaoProxyThread<ALBehaviorManagerProxy>(
 				localProxyBehavior	
 				);
+
 		
 		osc = new OscMessages(receiverIP);
 	}
 	
 	public static void test(){
 		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "Conductobot/" + "explanation_hand_horizontal"); 
+		proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big"); 
 		
 	}
 	
 	public static void start(String behavior)
 	{
 		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "Conductobot/" +behavior); 	
+		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 	
 	}
 	
 	public static void runBehaviors(){
@@ -41,12 +42,13 @@ public class NaoController {
 		runBehavior("instructions"); 
 		
 		//start instruction tempo small
-		runBehavior("tempo_big");
-		
 		runBehavior("tempo_small");
 		
-		runBehavior("explanation_hand_horizontal");
+		//start instruction tempo big
+		runBehavior("tempo_big");
 		
+		//start instruction tempo more instruments
+		runBehavior("explanation_hand_horizontal");
 		runBehavior("explanation_hand_horizontal_back");
 		
 	}
