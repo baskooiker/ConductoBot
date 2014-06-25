@@ -8,7 +8,7 @@ public class NaoController {
 	static int NAOQI_PORT;
 	static private ALBehaviorManagerProxy localProxyBehavior;
 	static private NaoProxyThread<ALBehaviorManagerProxy> proxyBehavior;
-	OscMessages osc;
+	static OscMessages osc;
  	byte[] receiverIP;
 	public NaoController(String n, int port)
 	{
@@ -24,7 +24,6 @@ public class NaoController {
 		osc = new OscMessages(receiverIP);
 	}
 	
-	
 	public static void test(){
 		proxyBehavior.start();
 		proxyBehavior.queueMethod("runBehavior", "Conductobot/" + "explanation_hand_horizontal"); 
@@ -34,13 +33,12 @@ public class NaoController {
 	public static void start(String behavior)
 	{
 		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "Conductobot/" +behavior); 
-		
+		proxyBehavior.queueMethod("runBehavior", "Conductobot/" +behavior); 	
 	}
 	
-	public void runBehaviors(){
+	public static void runBehaviors(){
 		//start instructions
-		// TODO : runBehavior("instructions"); 
+		runBehavior("instructions"); 
 		
 		//start instruction tempo small
 		runBehavior("tempo_big");
@@ -51,12 +49,9 @@ public class NaoController {
 		
 		runBehavior("explanation_hand_horizontal_back");
 		
-
-		
-		
 	}
 	
-	public void runBehavior(String behavior){
+	public static void runBehavior(String behavior){
 		start(behavior);
 		osc.sendMessage(behavior);	
 	}

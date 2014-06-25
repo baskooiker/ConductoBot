@@ -6,9 +6,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Date;
 
 import com.aldebaran.proxy.*;
-import com.illposed.osc.OSCMessage;
+import com.illposed.osc.*;
 
 public class Main
 {
@@ -23,8 +24,34 @@ public class Main
  public static void main(String[] args) throws Exception {
 		System.out.println("Starting Nao");
 		NaoController nc = new NaoController(NAOQI_IP, NAOQI_PORT);
-		nc.osc.sendMessage("explanation_hand_horizontal");	
-	 
+		
+		
+		
+		OSCListener ls = new OSCListener(){
+
+			@Override
+			public void acceptMessage(Date time, OSCMessage message) {
+				// TODO Auto-generated method stub
+				System.out.println("Message van Bas"+message.getArguments().toString());
+				
+			}
+		};
+		OSCPortIn in = new OSCPortIn(1337);
+		AddressSelector as = new AddressSelector() {
+			
+			@Override
+			public boolean matches(String messageAddress) {
+				// TODO Auto-generated method stub
+				System.out.println(messageAddress);
+				return messageAddress.equals("/kinect/tempo");
+			}
+		};
+		in.addListener(as,ls);
+		in.startListening();
+		 while(true){
+			 
+			 
+		 }
 	 
 	 /*
 	 	com.illposed.osc.OSCPortOut sender = new com.illposed.osc.OSCPortOut(InetAddress.getByAddress(new byte[]{10, 0, 1, 6}), 1234);
@@ -34,12 +61,9 @@ public class Main
 		 } catch (Exception e) {
 			 System.out.println("Couldn't send");
 		 */
-	 
-	 /*
-		System.out.println("Starting Nao");
-		NaoController nc = new NaoController(NAOQI_IP, NAOQI_PORT);
-		//NaoController.start();
-		NaoController.test();
+	/* 
+		NaoController.runBehaviors();
+		//NaoController.test();
 		
 		System.out.println("Everything running, type quit to stop.");
 		
