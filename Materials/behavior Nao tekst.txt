@@ -9,11 +9,10 @@ Wat Nao moet doen:
 
 Gedurende dat de mens begint met muziek spelen
 - behavior dat hij luistert 
-Uit Wouter's project 
 (wanneer het geluid steeds hetzelfde is:
-	- Stretch
+	- Stretch (kan gevonden in een standaard behavior wat op BB staat: voorlichting_behavior)
 wanneer de muziekrobot begint
-	- tap foot
+	- tap foot (standaard behavior)
 wanneer er een verandering in de muziek is:
 -random behavior
 	- soms niks
