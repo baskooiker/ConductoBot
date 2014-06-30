@@ -70,7 +70,12 @@ public class NaoController {
 			public void run()
 			{
 				NaoController.getInstance();
-				NaoController.runBehavior("instructions");
+				try {
+					NaoController.runBehaviors();
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -94,22 +99,22 @@ public class NaoController {
 		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 	
 	}
 	
-	
-	
-	
+		
 	protected static void runBehaviors() throws InterruptedException {
 		while(!Thread.interrupted()){
 			//NaoController.runBehavior("instructions");			
-			NaoController.localProxyBehavior.runBehavior("intructions");
+			NaoController.localProxyBehavior.runBehavior("conductobot/instructions");
 			NaoController.behaviourFinished = true;
+			System.out.println("Ja behavior gedaan van introductie");
 			
 			while(!Thread.interrupted()){
-				NaoController.instance.proxyBehavior.queueMethod("runBehavior", "tempo_small");
+				NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_small");
+				NaoController.behaviourFinished = false;
 			}
 			
 			Thread.sleep(2000);
 
-			NaoController.behaviourFinished = false;
+			
 		}
 		
 		
