@@ -4,12 +4,16 @@ import com.aldebaran.proxy.ALBehaviorManagerProxy;
 
 public class NaoController {
 
+	private static NaoController instance;
+	private static Thread behaviourThread;
 	static String NAOQI_IP;
 	static int NAOQI_PORT;
 	static private ALBehaviorManagerProxy localProxyBehavior;
 	static private NaoProxyThread<ALBehaviorManagerProxy> proxyBehavior;
+	private static boolean behaviourFinished = true;
 	static OscMessages osc;
  	byte[] receiverIP;
+ 	
 	public NaoController(String n, int port)
 	{
 		receiverIP = new byte[]{10, 0, 1, 8};
@@ -25,53 +29,104 @@ public class NaoController {
 		osc = new OscMessages(receiverIP);
 	}
 	
-	public void test(){
-		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");
+	public static synchronized void setup(String ip, int port) throws Exception
+	{
+		if(NaoController.instance != null)
+		{
+			throw new Exception("NaoController already started!");
+		}
 		
-		
+		//Connect with Nao
+		NaoController.instance = new NaoController(ip, port);
 	}
 	
-	public void start(String behavior) throws InterruptedException
+	public void test() throws InterruptedException{
+		String[] behaviors = {"instructions","tempo_small", "tempo_big","hand_horizontal", "hand_horizontal_back"};
+		for(int i= 0; i< behaviors.length; i++ )
+		{
+			runBehavior(behaviors[i]);
+			if(!localProxyBehavior.isBehaviorRunning(behaviors[i])){
+				runBehavior(behaviors[i+1]);
+				System.out.println("Dit behavior is nu:"+behaviors[i+1]);
+			}
+			else{
+				localProxyBehavior.stopBehavior(behaviors[i]);
+			}	
+		}
+		proxyBehavior.start();
+		proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");	
+	}
+	
+	public static void start()
+	{
+		if(NaoController.behaviourThread != null)
+		{
+			throw new RuntimeException("NaoController already started!");
+		}
+		
+		NaoController.behaviourThread = new Thread(new Runnable() {	
+	
+			
+			public void run()
+			{
+				NaoController.getInstance();
+				NaoController.runBehavior("instructions");
+			}
+		});
+		
+		NaoController.behaviourThread.start();
+	}
+	
+	public static NaoController getInstance()
+	{	
+		if(NaoController.instance == null)
+		{
+			throw new RuntimeException("NaoController not started.");
+		}
+		
+		return NaoController.instance;
+	}
+	
+	public static void startBehavior(String behavior)
 	{
 		//proxyBehavior.wait();
 		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 
-		
+		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 	
 	}
 	
-	public void runBehaviors() throws InterruptedException{
-		//start instructions
-		if(!localProxyBehavior.isBehaviorRunning("conductobot/instructions")){
-			osc.sendMessage("instructions");
-			start("instructions"); 
-			NaoProxyThread.sleep(1000);
-			System.out.println("instructionsbehavior finished");
+	
+	
+	
+	protected static void runBehaviors() throws InterruptedException {
+		while(!Thread.interrupted()){
+			//NaoController.runBehavior("instructions");			
+			NaoController.localProxyBehavior.runBehavior("intructions");
+			NaoController.behaviourFinished = true;
 			
-			localProxyBehavior.stopBehavior("conductobot/instructions");
-			//check of the behavior geeindigd is na de stopbehavior
-			if(!localProxyBehavior.isBehaviorRunning("conductobot/instructions")){
-				System.out.println("1. instructionsbehavior is ended");
-		}
-		}
-		else{//probeer nog een keer uit te zetten
-			System.out.println("Instructions are still running!");
-			localProxyBehavior.stopBehavior("conductobot/instructions");
-			//check nog een keer of de behavior gestopt is
-			if(!localProxyBehavior.isBehaviorRunning("conductobot/instructions")){
-				System.out.println("2. instructionsbehavior is ended");
-			}		
-		}
-		String[] runningbehaviors = localProxyBehavior.getRunningBehaviors();
-		if(runningbehaviors.length != 0){
-			System.out.println("Behaviors more than 1");
-		}
-		localProxyBehavior.stopAllBehaviors();
-		if(runningbehaviors.length == 0){
-			System.out.println("Behaviors succesfully ended");
+			while(!Thread.interrupted()){
+				NaoController.instance.proxyBehavior.queueMethod("runBehavior", "tempo_small");
+			}
+			
+			Thread.sleep(2000);
+
+			NaoController.behaviourFinished = false;
 		}
 		
 		
+		
+		
+		
+		
+		//start instructions
+		//osc.sendMessage("instructions");
+		//runBehavior("instructions");
+		
+		//proxyBehavior.interrupt();
+		//proxyBehavior = new NaoProxyThread<ALBehaviorManagerProxy>(
+		//		localProxyBehavior	
+		//		);
+		
+						
 		//start instruction tempo small
 		//osc.sendMessage("instructions");
 		//runBehavior("tempo_small");
@@ -90,18 +145,14 @@ public class NaoController {
 		
 	}
 	
-	public void runBehavior(String behavior){
-		try {
-			start(behavior);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public static void runBehavior(String behavior){
+			startBehavior(behavior);
+
 		osc.sendMessage(behavior);	
 	}
 	
 	
-	public void stop()
+	public static void stop()
 	{
 		proxyBehavior.interrupt();
 	}
