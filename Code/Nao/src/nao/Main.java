@@ -22,13 +22,12 @@ public class Main
  static int NAOQI_PORT = 9559;
 
  public static void main(String[] args) throws Exception {
+	
 		System.out.println("Starting Nao");
 		NaoController nc = new NaoController(NAOQI_IP, NAOQI_PORT);
-		NaoOSCListener ls = new NaoOSCListener();
+		//NaoOSCListener ls = new NaoOSCListener();	
 		
-		
-		
-		NaoController.runBehaviors();
+		nc.runBehaviors();
 		//NaoController.test();
 		
 		System.out.println("Nao is running, type quit to stop.");
@@ -40,12 +39,14 @@ public class Main
 		System.out.println("Receiving quit command, stopping..");
 		
 		//Quit the controller
-		NaoController.stop();
+		nc.stop();
 		System.out.println("Nao main thread stopped."); 
 		
 		//start listening
 		//typ quit to stop listening
-		ls.startListening();
+		
+		
+		//ls.startListening();
 				
 
 		

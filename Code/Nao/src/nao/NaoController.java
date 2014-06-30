@@ -12,7 +12,7 @@ public class NaoController {
  	byte[] receiverIP;
 	public NaoController(String n, int port)
 	{
-		receiverIP = new byte[]{10, 0, 1, 6};
+		receiverIP = new byte[]{10, 0, 1, 8};
 		NAOQI_IP=n;
 		NAOQI_PORT = port;
 		//Connect with Nao
@@ -25,41 +25,83 @@ public class NaoController {
 		osc = new OscMessages(receiverIP);
 	}
 	
-	public static void test(){
+	public void test(){
 		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big"); 
+		proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");
+		
 		
 	}
 	
-	public static void start(String behavior)
+	public void start(String behavior) throws InterruptedException
 	{
+		//proxyBehavior.wait();
 		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 	
+		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 
+		
 	}
 	
-	public static void runBehaviors(){
+	public void runBehaviors() throws InterruptedException{
 		//start instructions
-		runBehavior("instructions"); 
+		if(!localProxyBehavior.isBehaviorRunning("conductobot/instructions")){
+			osc.sendMessage("instructions");
+			start("instructions"); 
+			NaoProxyThread.sleep(1000);
+			System.out.println("instructionsbehavior finished");
+			
+			localProxyBehavior.stopBehavior("conductobot/instructions");
+			//check of the behavior geeindigd is na de stopbehavior
+			if(!localProxyBehavior.isBehaviorRunning("conductobot/instructions")){
+				System.out.println("1. instructionsbehavior is ended");
+		}
+		}
+		else{//probeer nog een keer uit te zetten
+			System.out.println("Instructions are still running!");
+			localProxyBehavior.stopBehavior("conductobot/instructions");
+			//check nog een keer of de behavior gestopt is
+			if(!localProxyBehavior.isBehaviorRunning("conductobot/instructions")){
+				System.out.println("2. instructionsbehavior is ended");
+			}		
+		}
+		String[] runningbehaviors = localProxyBehavior.getRunningBehaviors();
+		if(runningbehaviors.length != 0){
+			System.out.println("Behaviors more than 1");
+		}
+		localProxyBehavior.stopAllBehaviors();
+		if(runningbehaviors.length == 0){
+			System.out.println("Behaviors succesfully ended");
+		}
+		
 		
 		//start instruction tempo small
-		runBehavior("tempo_small");
+		//osc.sendMessage("instructions");
+		//runBehavior("tempo_small");
+		
 		
 		//start instruction tempo big
-		runBehavior("tempo_big");
+		//osc.sendMessage("instructions");
+		//runBehavior("tempo_big");
 		
 		//start instruction tempo more instruments
-		runBehavior("explanation_hand_horizontal");
-		runBehavior("explanation_hand_horizontal_back");
+		//osc.sendMessage("instructions");
+		//runBehavior("hand_horizontal");
+		//runBehavior("hand_horizontal_back");
+		
+		//osc.sendMessage("end");
 		
 	}
 	
-	public static void runBehavior(String behavior){
-		start(behavior);
+	public void runBehavior(String behavior){
+		try {
+			start(behavior);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		osc.sendMessage(behavior);	
 	}
 	
 	
-	public static void stop()
+	public void stop()
 	{
 		proxyBehavior.interrupt();
 	}

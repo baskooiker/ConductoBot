@@ -19,7 +19,7 @@ public class OscMessages {
 		msg = new OSCMessage("/nao/"+behavior);
 
 		try {
-			sender = new com.illposed.osc.OSCPortOut(InetAddress.getByAddress(IPadres), 1234);
+			sender = new com.illposed.osc.OSCPortOut(InetAddress.getByAddress(IPadres), 1235);
 		} catch (SocketException | UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

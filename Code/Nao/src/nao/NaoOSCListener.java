@@ -43,7 +43,7 @@ public class NaoOSCListener {
 		
 		
 		try {
-			in = new OSCPortIn(1337);
+			in = new OSCPortIn(1338);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
