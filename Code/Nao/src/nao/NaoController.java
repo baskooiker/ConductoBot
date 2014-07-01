@@ -59,27 +59,28 @@ public class NaoController {
 	
 	public static void start()
 	{
+		/*
 		if(NaoController.behaviourThread != null)
 		{
 			throw new RuntimeException("NaoController already started!");
 		}
 		
-		NaoController.behaviourThread = new Thread(new Runnable() {	
+		//NaoController.behaviourThread = new Thread(new Runnable() {	
 	
 			
 			public void run()
 			{
 				NaoController.getInstance();
-				try {
+				*/try {
 					NaoController.runBehaviors();
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-			}
-		});
+			
+	//	});
 		
-		NaoController.behaviourThread.start();
+		//NaoController.behaviourThread.start();
 	}
 	
 	public static NaoController getInstance()
@@ -101,24 +102,22 @@ public class NaoController {
 	
 		
 	protected static void runBehaviors() throws InterruptedException {
-		while(!Thread.interrupted()){
+		NaoController.proxyBehavior.start();
+		
+		
 			//NaoController.runBehavior("instructions");			
-			NaoController.localProxyBehavior.runBehavior("conductobot/instructions");
-			NaoController.behaviourFinished = true;
+			NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/instructions");
+			//NaoController.behaviourFinished = true;
 			System.out.println("Ja behavior gedaan van introductie");
 			
-			while(!Thread.interrupted()){
-				NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_small");
-				NaoController.behaviourFinished = false;
-			}
 			
-			Thread.sleep(2000);
+				
+				NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_small");
+				//NaoController.behaviourFinished = false;
+				NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");
 
 			
-		}
-		
-		
-		
+			Thread.sleep(2000);
 		
 		
 		
