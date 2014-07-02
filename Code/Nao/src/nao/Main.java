@@ -16,33 +16,31 @@ public class Main
  static
  {
    System.loadLibrary("JNaoQi");
-
  }
- static String NAOQI_IP = "naomi.local"; //127.1.1.1
+ static String NAOQI_IP = "127.1.1.1";//"naomi.local"; //127.1.1.1
  static int NAOQI_PORT = 9559;
 
  public static void main(String[] args) throws Exception {
 	
 		System.out.println("Starting Nao");
-		//NaoController nc = new NaoController(NAOQI_IP, NAOQI_PORT);
-		//NaoOSCListener ls = new NaoOSCListener();	
+		NaoController nc = new NaoController(NAOQI_IP, NAOQI_PORT);
+		NaoOSCListener ls = new NaoOSCListener();	
 		
-		//nc.runBehaviors();
-		NaoController.setup(NAOQI_IP, NAOQI_PORT);
-		NaoController.start();
-	
-		//nc.test();
+		nc.runBehaviors();
+		//NaoController.test();
 		
 		System.out.println("Nao is running, type quit to stop.");
 		
 		BufferedReader r = new BufferedReader(new InputStreamReader(System.in));
 		
-		while(!(r.readLine()).equals("quit"));
+		ls.startListening();
+		
+		while(!(r.readLine()).equals("quit")) ;
 		
 		System.out.println("Receiving quit command, stopping..");
 		
 		//Quit the controller
-		NaoController.stop();
+		nc.stop();
 		System.out.println("Nao main thread stopped."); 
 		
 		//start listening

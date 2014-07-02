@@ -12,45 +12,56 @@ import com.illposed.osc.OSCMessage;
 import com.illposed.osc.OSCPortIn;
 
 public class NaoOSCListener {
-	
+
 	OSCListener righthandListener;
 	OSCListener lefthandListener;
 	OSCPortIn in;
 	AddressSelector righthandAS;
 	AddressSelector lefthandAS;
-	BufferedReader r; 
-
-	public NaoOSCListener(){
+	BufferedReader r;
+	NaoController c;
+	boolean assignedController;
+	
+	public NaoOSCListener() {
 		r = new BufferedReader(new InputStreamReader(System.in));
 		
-		righthandListener = new OSCListener(){
+		righthandListener = new OSCListener() {
 			@Override
-			public void acceptMessage(Date time, OSCMessage message) {
-				// TODO Auto-generated method stub
-				System.out.println("Message van Bas"+message.getArguments().toString());
-
+			public void acceptMessage(Date time, OSCMessage message){
+				System.out.println("Message van Bas: "
+						+ message.getArguments().toString());
+				if (message.getArguments().toString().equals("0")) {
+					c.runBehavior("nao_approves");
+				}
+				else if (message.getArguments().toString().equals("1")) {
+					c.runBehavior("nao_disapproves");
+				}
+				else
+					System.err.println("Unexpected message arrived at righthandlistener");
 			}
 		};
-		
-		lefthandListener = new OSCListener(){
+
+		lefthandListener = new OSCListener() {
 			@Override
 			public void acceptMessage(Date time, OSCMessage message) {
-				// TODO Auto-generated method stub
-				System.out.println("Message van Bas"+message.getArguments().toString());
+				System.out.println("Message van Bas: "
+						+ message.getArguments().toString());
 
+				if (message.getArguments().toString().equals("0")) {
+					c.runBehavior("nao_leftarm");
+				}
 			}
 		};
-		
-		
+
 		try {
 			in = new OSCPortIn(1338);
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		righthandAS = new AddressSelector() {
-			
+
 			@Override
 			public boolean matches(String messageAddress) {
 				// TODO Auto-generated method stub
@@ -58,9 +69,9 @@ public class NaoOSCListener {
 				return messageAddress.equals("/kinect/tempo");
 			}
 		};
-		
+
 		lefthandAS = new AddressSelector() {
-			
+
 			@Override
 			public boolean matches(String messageAddress) {
 				// TODO Auto-generated method stub
@@ -69,20 +80,29 @@ public class NaoOSCListener {
 			}
 		};
 	}
-	
-	public void startListening()
-	{
-		in.addListener(righthandAS,righthandListener);
+
+	public void startListening() {
+		in.addListener(righthandAS, righthandListener);
 		in.addListener(lefthandAS, lefthandListener);
 		in.startListening();
+		if (in.isListening()) {
+			System.out.println("Listener running!");
+		} else {
+			System.err.println("No Listener running!");
+		}
+
 		try {
-			while(!(r.readLine()).equals("quit")){
-				System.out.println("Receiving quit command, stop listening..");		
-			 }
+			while (!(r.readLine()).equals("quit")) {
+				System.out.println("Receiving quit command, stop listening..");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	public void assignNaoController(NaoController n) { 
+		//c.deepCopy(n);
+		c=n; assignedController = true;
+	}
 }

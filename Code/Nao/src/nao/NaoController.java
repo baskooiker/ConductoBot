@@ -165,5 +165,16 @@ public class NaoController {
 	//proxyBehavior.queueMethod("runBehavior", "tell-time"); 
 // conductobot/ \ explanation_tempo_big
 	//System.out.print("Hello World");
+	public void deepCopy (NaoController n) {
+		this.NAOQI_IP = n.NAOQI_IP;
+		this.NAOQI_PORT = n.NAOQI_PORT;
+		this.localProxyBehavior = n.localProxyBehavior;
+		this.proxyBehavior = n.proxyBehavior;
+		this.osc = n.osc;
+		this.receiverIP = n.receiverIP;
+	}
+	
+	public ALBehaviorManagerProxy getLocalProxy() { return localProxyBehavior;}
+	
 
 }
