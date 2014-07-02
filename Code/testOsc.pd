@@ -1,0 +1,55 @@
+#N canvas 0 0 761 554 10;
+#X obj 69 95 udpreceive 1990;
+#X obj 69 129 unpackOSC;
+#X obj 69 158 routeOSC /test;
+#X obj 69 189 routeOSC /1 /2;
+#X floatatom 69 219 5 0 0 0 - - -;
+#X floatatom 109 220 5 0 0 0 - - -;
+#X obj 407 322 packOSC;
+#X obj 407 353 udpsend;
+#X obj 407 158 snapshot~;
+#X obj 406 135 osc~ 1;
+#X obj 477 134 metro 100;
+#X obj 477 107 loadbang;
+#X obj 410 189 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 597 1;
+#X obj 567 158 snapshot~;
+#X obj 570 189 hsl 128 15 -1 1 0 0 empty empty empty -2 -8 0 10 -262144
+-1 -1 8753 1;
+#X obj 566 135 osc~ 0.3;
+#X msg 407 217 /test/1 \$1;
+#X msg 497 324 disconnect \, connect 127.0.0.1 1990;
+#X obj 497 301 loadbang;
+#X msg 567 218 /test/2 \$1;
+#X obj 69 251 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 597 1;
+#X obj 109 251 vsl 15 128 -1 1 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 8753 1;
+#X text 452 38 This is the sending part \; generating two signals at
+the top \; packing them in osc messages \; and sending them through
+udp;
+#X text 22 31 This is the receiving part \; Unpacking and routing the
+signals to a separate path;
+#X text 173 464 If you see the two bars at the left and the two bars
+at the right move in synchrony \, osc is working;
+#X connect 0 0 1 0;
+#X connect 1 0 2 0;
+#X connect 2 0 3 0;
+#X connect 3 0 4 0;
+#X connect 3 1 5 0;
+#X connect 4 0 20 0;
+#X connect 5 0 21 0;
+#X connect 6 0 7 0;
+#X connect 8 0 12 0;
+#X connect 9 0 8 0;
+#X connect 10 0 8 0;
+#X connect 10 0 13 0;
+#X connect 11 0 10 0;
+#X connect 12 0 16 0;
+#X connect 13 0 14 0;
+#X connect 14 0 19 0;
+#X connect 15 0 13 0;
+#X connect 16 0 6 0;
+#X connect 17 0 7 0;
+#X connect 18 0 17 0;
+#X connect 19 0 6 0;
