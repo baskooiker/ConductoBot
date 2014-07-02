@@ -79,6 +79,7 @@ public class NaoProxyThread<P extends ALProxy> extends Thread {
 	 */
 	public void queueMethod(String method, String arg)
 	{
+		System.out.println("Queued method: "+arg);
 		this.actions.add(new Action(method, arg));
 	}
 	
