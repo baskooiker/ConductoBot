@@ -58,7 +58,7 @@ public class NaoProxyThread<P extends ALProxy> extends Thread {
 				if((a = this.actions.poll()) != null)
 				{
 					Method m;
-					System.out.println("Hij begint nu met deze behavior"+a.arg);
+					System.out.println("Hij begint nu met deze behavior: "+a.arg);
 					osc.sendMessage(a.arg);
 					osc.closePort();
 					m = this.proxy.getClass().getMethod(a.method, String.class);

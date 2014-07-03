@@ -25,7 +25,7 @@ public class NaoOSCListener {
 	boolean firstRun;
 	
 	public NaoOSCListener() {
-		firstrun = true;
+		firstRun = true;
 		r = new BufferedReader(new InputStreamReader(System.in));
 		righthandListener = new OSCListener() {
 			@Override

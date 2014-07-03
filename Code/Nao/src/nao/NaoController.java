@@ -5,12 +5,10 @@ import com.aldebaran.proxy.ALBehaviorManagerProxy;
 public class NaoController {
 
 	private static NaoController instance;
-	private static Thread behaviourThread;
 	static String NAOQI_IP;
 	static int NAOQI_PORT;
 	static private ALBehaviorManagerProxy localProxyBehavior;
 	static private NaoProxyThread<ALBehaviorManagerProxy> proxyBehavior;
-	private static boolean behaviourFinished = true;
 	static OscMessages osc;
  	byte[] receiverIP;
  	
@@ -114,13 +112,11 @@ public class NaoController {
 				osc.sendMessage("instructions");
 				Thread.sleep(1000);
 				runBehavior("tempo_small");
-
-				
-				//osc.sendMessage("instructions");
-				//runBehavior("tempo_big");
-				//osc.sendMessage("instructions");
 				Thread.sleep(1000);
-				//runBehavior("small_without_say");
+				runBehavior("tempo_big");
+				Thread.sleep(1000);
+				runBehavior("small_without_say");
+				Thread.sleep(1000);
 				//osc.sendMessage("instructions");
 				runBehavior("hand_horizontal");
 				Thread.sleep(1000);
