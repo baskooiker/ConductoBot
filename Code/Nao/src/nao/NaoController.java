@@ -16,7 +16,7 @@ public class NaoController {
  	
 	public NaoController(String n, int port)
 	{
-		receiverIP = new byte[]{10, 0, 1, 8};
+		receiverIP = new byte[]{10, 0, 1, 9};
 		NAOQI_IP=n;
 		NAOQI_PORT = port;
 		//Connect with Nao
@@ -108,27 +108,26 @@ public class NaoController {
 			osc.sendMessage("instructions");
 			NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/instructions");
 			//NaoController.behaviourFinished = true;
-			System.out.println("Ja behavior gedaan van introductie");
+			//System.out.println("Ja behavior gedaan van introductie");
 			
 			
 				osc.sendMessage("instructions");
+				Thread.sleep(1000);
 				runBehavior("tempo_small");
-				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_small");
-				//NaoController.behaviourFinished = false;
-				osc.sendMessage("instructions");
-				runBehavior("tempo_big");
 
-				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");
-				osc.sendMessage("instructions");
-				runBehavior("hand_horizontal");
-
-				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/hand_horizontal");
+				
 				//osc.sendMessage("instructions");
+				//runBehavior("tempo_big");
+				//osc.sendMessage("instructions");
+				Thread.sleep(1000);
+				//runBehavior("small_without_say");
+				//osc.sendMessage("instructions");
+				runBehavior("hand_horizontal");
+				Thread.sleep(1000);
 				runBehavior("hand_horizontal_back");
-
-				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/hand_horizontal");
 			
 			Thread.sleep(2000);
+			
 		
 		
 		
@@ -161,15 +160,17 @@ public class NaoController {
 	}
 	
 	public static void runBehavior(String behavior){
-			startBehavior(behavior);
-
-		osc.sendMessage(behavior);	
+		startBehavior(behavior);
+		//osc.sendMessage(behavior);
 	}
 	
 	
 	public static void stop()
 	{
+		System.out.println("Stopping");
+		osc.sendMessage("/end");
 		proxyBehavior.interrupt();
+		osc.closePort();
 	}
 // localProxyBehavior = new ALBehaviorManagerProxy(NAOQI_IP, NAOQI_PORT);
 // localProxyBehavior.runBehavior("tell-time");

@@ -15,6 +15,10 @@ import com.aldebaran.proxy.ALProxy;
  *
  */
 public class NaoProxyThread<P extends ALProxy> extends Thread {
+	static OscMessages osc;
+	byte[] receiverIP;
+	
+	
 
 	private class Action {
 		public String method;
@@ -34,6 +38,10 @@ public class NaoProxyThread<P extends ALProxy> extends Thread {
 	public NaoProxyThread(P proxy) 
 	{		
 		this.proxy = proxy;
+		
+		receiverIP = new byte[]{10, 0, 1, 9};
+		
+		osc = new OscMessages(receiverIP);
 	}
 	
 	/**
@@ -50,9 +58,12 @@ public class NaoProxyThread<P extends ALProxy> extends Thread {
 				if((a = this.actions.poll()) != null)
 				{
 					Method m;
-					
+					System.out.println("Hij begint nu met deze behavior"+a.arg);
+					osc.sendMessage(a.arg);
+					osc.closePort();
 					m = this.proxy.getClass().getMethod(a.method, String.class);
-					m.invoke(this.proxy, a.arg);				
+					m.invoke(this.proxy, a.arg);
+					
 				}
 				else
 				{

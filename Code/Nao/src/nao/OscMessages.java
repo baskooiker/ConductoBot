@@ -19,7 +19,7 @@ public class OscMessages {
 		msg = new OSCMessage("/nao/"+behavior);
 
 		try {
-			sender = new com.illposed.osc.OSCPortOut(InetAddress.getByAddress(IPadres), 1235);
+			sender = new com.illposed.osc.OSCPortOut(InetAddress.getByAddress(IPadres), 1236);
 		} catch (SocketException | UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -30,8 +30,15 @@ public class OscMessages {
 			 } 
 		catch (Exception e) {
 				 System.out.println("Couldn't send");
-			 }		
+			 }	
+		
 	}
+	
+	public void closePort(){
+		sender.close();
+	}
+	
+
 	
 	public void sendMessage(String behavior, byte[] ip){
 		msg = new OSCMessage("/nao/"+behavior);
