@@ -96,8 +96,7 @@ public class NaoController {
 	public static void startBehavior(String behavior)
 	{
 		//proxyBehavior.wait();
-		proxyBehavior.start();
-		proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 	
+		NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/" +behavior); 	
 	}
 	
 		
@@ -105,17 +104,29 @@ public class NaoController {
 		NaoController.proxyBehavior.start();
 		
 		
-			//NaoController.runBehavior("instructions");			
+			//NaoController.runBehavior("instructions");
+			osc.sendMessage("instructions");
 			NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/instructions");
 			//NaoController.behaviourFinished = true;
 			System.out.println("Ja behavior gedaan van introductie");
 			
 			
-				
-				NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_small");
+				osc.sendMessage("instructions");
+				runBehavior("tempo_small");
+				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_small");
 				//NaoController.behaviourFinished = false;
-				NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");
+				osc.sendMessage("instructions");
+				runBehavior("tempo_big");
 
+				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/tempo_big");
+				osc.sendMessage("instructions");
+				runBehavior("hand_horizontal");
+
+				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/hand_horizontal");
+				//osc.sendMessage("instructions");
+				runBehavior("hand_horizontal_back");
+
+				//NaoController.proxyBehavior.queueMethod("runBehavior", "conductobot/hand_horizontal");
 			
 			Thread.sleep(2000);
 		

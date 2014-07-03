@@ -17,7 +17,7 @@ public class Main
  {
    System.loadLibrary("JNaoQi");
  }
- static String NAOQI_IP = "127.1.1.1";//"naomi.local"; //127.1.1.1
+ static String NAOQI_IP = "naomi.local";//"naomi.local"; //127.1.1.1
  static int NAOQI_PORT = 9559;
 
  public static void main(String[] args) throws Exception {
