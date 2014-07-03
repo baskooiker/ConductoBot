@@ -20,21 +20,24 @@ public class NaoOSCListener {
 	AddressSelector lefthandAS;
 	BufferedReader r;
 	NaoController c;
+	Date lastAction;
 	boolean assignedController;
+	boolean firstRun;
 	
 	public NaoOSCListener() {
+		firstrun = true;
 		r = new BufferedReader(new InputStreamReader(System.in));
-		
 		righthandListener = new OSCListener() {
 			@Override
 			public void acceptMessage(Date time, OSCMessage message){
 				System.out.println("Message van Bas: "
 						+ message.getArguments().toString());
-				if (message.getArguments().toString().equals("0")) {
-					c.runBehavior("nao_approves");
+				
+				if (message.getArguments().toString().equals("[0]")) {
+					c.runBehavior("nao_approving");
 				}
-				else if (message.getArguments().toString().equals("1")) {
-					c.runBehavior("nao_disapproves");
+				else if (message.getArguments().toString().equals("[1]")) {
+					c.runBehavior("nao_disapproving");
 				}
 				else
 					System.err.println("Unexpected message arrived at righthandlistener");
@@ -47,7 +50,7 @@ public class NaoOSCListener {
 				System.out.println("Message van Bas: "
 						+ message.getArguments().toString());
 
-				if (message.getArguments().toString().equals("0")) {
+				if (message.getArguments().toString().equals("[0]")) {
 					c.runBehavior("nao_leftarm");
 				}
 			}
